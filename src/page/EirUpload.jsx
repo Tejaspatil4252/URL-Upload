@@ -408,13 +408,7 @@ const EirUpload = () => {
         onCapture={handleCameraCapture}
       />
 
-      {/* Global Styles */}
-      <style jsx>{`
-        @keyframes gridMove {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
-        }
-      `}</style>
+
     </NavLayout>
   );
 };

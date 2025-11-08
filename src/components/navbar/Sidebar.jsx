@@ -13,7 +13,7 @@ import {
   FaShieldAlt,
   FaCog,
   FaSignOutAlt,
-  FaAnchor,
+  FaUser,
   FaUpload,
   FaChevronRight,
 } from "react-icons/fa";
@@ -40,71 +40,97 @@ const Sidebar = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <>
-  <motion.div
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="position-fixed top-0 start-0 w-100 h-100"
             style={{ 
-              background: 'transparent', // No overlay color
+              background: 'transparent',
               zIndex: 1040,
               cursor: 'pointer'
             }}
           />
-     
-     
-          {/* Modern Glass Sidebar */}
+      
+          {/* Cyber Tech Sidebar */}
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-           className="position-fixed shadow-lg"
-style={{ 
-  width: '320px', 
-  zIndex: 1050,
-  top: '81px', // ← ADD THIS
-  left: 0,
-  height: 'calc(100vh - 70px)',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.95) 100%)',
-              backdropFilter: 'blur(20px)',
-              borderRight: '1px solid rgba(255,255,255,0.3)'
+            className="position-fixed shadow-lg"
+            style={{ 
+              width: '320px', 
+              zIndex: 1050,
+              top: '81px',
+              left: 0,
+              height: 'calc(100vh - 70px)',
+              background: "rgba(10, 10, 26, 0.95)",
+              backdropFilter: "blur(20px)",
+              borderRight: "1px solid rgba(0, 240, 255, 0.3)",
+              boxShadow: "0 0 30px rgba(0, 240, 255, 0.1)"
             }}
           >
+            {/* Tech Background Particles */}
+            <div className="position-absolute top-0 start-0 w-100 h-100 overflow-hidden" style={{ zIndex: -1 }}>
+              {[...Array(15)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="position-absolute rounded-circle"
+                  style={{
+                    width: '3px',
+                    height: '3px',
+                    background: `radial-gradient(circle, #00f0ff, #b967ff)`,
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, -10, 0],
+                    opacity: [0.3, 0.8, 0.3],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                  }}
+                />
+              ))}
+            </div>
+
             <div className="d-flex flex-column h-100">
               
-              {/* Modern Header */}
+              {/* Header */}
               <div className="flex-shrink-0">
                 <div className="d-flex align-items-center justify-content-between p-4 border-bottom"
-                  style={{ borderColor: 'rgba(102, 126, 234, 0.2)' }}
+                  style={{ borderColor: 'rgba(0, 240, 255, 0.3)' }}
                 >
                   <motion.div 
                     className="d-flex align-items-center gap-3"
                     whileHover={{ scale: 1.02 }}
                   >
                     <motion.div 
-                      className="rounded-3 d-flex align-items-center justify-content-center shadow-sm"
+                      className="rounded-3 d-flex align-items-center justify-content-center"
                       whileHover={{ rotate: 5, scale: 1.1 }}
                       style={{
                         width: '48px',
                         height: '48px',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
+                        background: "linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)",
+                        boxShadow: "0 0 25px rgba(0, 240, 255, 0.4)",
                       }}
                     >
-                      <FaAnchor className="text-white fs-5" />
+                      <FaDatabase className="text-white fs-5" />
                     </motion.div>
                     <div>
-                      <h5 className="text-dark fw-bold mb-1">RapptorSoft</h5>
+                      <h5 className="fw-bold mb-1" style={{ color: '#00f0ff' }}>QuantumCore</h5>
                       <Badge 
                         style={{ 
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          border: 'none',
+                          background: "linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)",
+                          border: "none",
                           fontSize: '0.65rem'
                         }}
                       >
-                        Maritime Portal
+                        System v2.1
                       </Badge>
                     </div>
                   </motion.div>
@@ -114,12 +140,12 @@ style={{
                     whileTap={{ scale: 0.9 }}
                     onClick={onClose}
                     className="btn-close"
-                    style={{ filter: 'brightness(0.7)' }}
+                    style={{ filter: 'invert(1) brightness(2)' }}
                   />
                 </div>
               </div>
 
-              {/* Enhanced Menu Items */}
+              {/* Menu Items */}
               <div className="flex-grow-1 overflow-auto py-3 left-scrollbar">   
                 <Nav className="flex-column px-3 gap-1">
                   {menuItems.map((item, index) => {
@@ -140,12 +166,13 @@ style={{
                           className="d-flex align-items-center justify-content-between p-3 rounded-3 text-decoration-none position-relative border-0"
                           style={{
                             background: isActive 
-                              ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                              ? "linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)"
                               : isHovered
-                              ? 'rgba(102, 126, 234, 0.1)'
+                              ? 'rgba(0, 240, 255, 0.1)'
                               : 'transparent',
-                            color: isActive ? 'white' : '#374151',
-                            transition: 'all 0.3s ease'
+                            color: isActive ? 'white' : '#00f0ff',
+                            transition: 'all 0.3s ease',
+                            border: isHovered ? '1px solid rgba(0, 240, 255, 0.3)' : '1px solid transparent'
                           }}
                         >
                           <div className="d-flex align-items-center gap-3">
@@ -158,7 +185,7 @@ style={{
                               <item.icon 
                                 className="fs-6"
                                 style={{ 
-                                  color: isActive ? 'white' : '#667eea'
+                                  color: isActive ? 'white' : '#b967ff'
                                 }} 
                               />
                             </motion.div>
@@ -176,7 +203,7 @@ style={{
                           >
                             <FaChevronRight 
                               className="fs-xxsmall" 
-                              style={{ color: isActive ? 'white' : '#667eea' }}
+                              style={{ color: isActive ? 'white' : '#00ff41' }}
                             />
                           </motion.div>
 
@@ -189,8 +216,22 @@ style={{
                               style={{
                                 width: '4px',
                                 height: '20px',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                                background: "linear-gradient(135deg, #00ff41 0%, #00f0ff 100%)",
+                                boxShadow: "0 0 10px #00ff41"
                               }}
+                            />
+                          )}
+
+                          {/* Holographic Effect on Hover */}
+                          {isHovered && (
+                            <motion.div
+                              className="position-absolute top-0 start-0 w-100 h-100"
+                              style={{
+                                background: "linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent)",
+                              }}
+                              initial={{ x: '-100%' }}
+                              animate={{ x: '100%' }}
+                              transition={{ duration: 0.8 }}
                             />
                           )}
                         </Nav.Link>
@@ -200,48 +241,54 @@ style={{
                 </Nav>
               </div>
 
-              {/* Modern Footer */}
+              {/* Footer */}
               <div className="flex-shrink-0 border-top p-4"
-                style={{ borderColor: 'rgba(102, 126, 234, 0.2)' }}
+                style={{ borderColor: 'rgba(0, 240, 255, 0.3)' }}
               >
                 {/* User Profile */}
                 <motion.div 
-                  className="d-flex align-items-center gap-3 mb-4 p-3 rounded-3 shadow-sm"
+                  className="d-flex align-items-center gap-3 mb-4 p-3 rounded-3"
                   whileHover={{ scale: 1.02 }}
                   style={{
-                    background: 'rgba(255,255,255,0.8)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(102, 126, 234, 0.1)'
+                    background: "rgba(0, 240, 255, 0.1)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(0, 240, 255, 0.3)",
+                    boxShadow: "0 0 15px rgba(0, 240, 255, 0.1)"
                   }}
                 >
                   <div className="position-relative">
                     <div 
-                      className="rounded-3 d-flex align-items-center justify-content-center shadow-sm"
+                      className="rounded-3 d-flex align-items-center justify-content-center"
                       style={{
                         width: '44px',
                         height: '44px',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        background: "linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)",
+                        boxShadow: "0 0 20px rgba(0, 240, 255, 0.3)"
                       }}
                     >
-                      <FaUsers className="text-white fs-6" />
+                      <FaUser className="text-white fs-6" />
                     </div>
                     <motion.div 
-                      className="position-absolute bottom-0 end-0 rounded-circle border-2 border-white"
-                      animate={{ scale: [1, 1.2, 1] }}
+                      className="position-absolute bottom-0 end-0 rounded-circle border-2"
+                      animate={{ 
+                        scale: [1, 1.3, 1],
+                        boxShadow: ['0 0 8px #00ff41', '0 0 16px #00ff41', '0 0 8px #00ff41']
+                      }}
                       transition={{ duration: 2, repeat: Infinity }}
                       style={{
                         width: '12px',
                         height: '12px',
-                        backgroundColor: '#10b981'
+                        backgroundColor: "#00ff41",
+                        borderColor: "rgba(10, 10, 26, 0.8)"
                       }}
                     />
                   </div>
                   <div className="flex-grow-1">
-                    <p className="text-dark fw-semibold mb-1 small">John Doe</p>
+                    <p className="fw-semibold mb-1 small" style={{ color: '#00f0ff' }}>John Doe</p>
                     <Badge 
                       style={{ 
-                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                        border: 'none',
+                        background: "linear-gradient(135deg, #00ff41 0%, #00b336 100%)",
+                        border: "none",
                         fontSize: '0.6rem'
                       }}
                     >
@@ -256,12 +303,12 @@ style={{
                   whileTap={{ scale: 0.98 }}
                 >
                   <Button
-                    variant="light"
                     className="w-100 mb-3 d-flex align-items-center justify-content-center gap-2 border-0 rounded-3 py-3"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-                      color: '#667eea',
-                      fontWeight: '600'
+                      background: "linear-gradient(135deg, rgba(255, 0, 128, 0.1) 0%, rgba(185, 103, 255, 0.1) 100%)",
+                      color: '#ff0080',
+                      fontWeight: '600',
+                      border: "1px solid rgba(255, 0, 128, 0.3)"
                     }}
                   >
                     <FaSignOutAlt />
@@ -279,15 +326,15 @@ style={{
                   <p 
                     className="fw-bold mb-1 small"
                     style={{ 
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      background: "linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)",
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent'
                     }}
                   >
-                    RapptorSoft v2.1.0
+                    QuantumCore v2.1.0
                   </p>
-                  <p className="text-muted small" style={{ fontSize: '0.7rem' }}>
-                    Maritime Management Suite
+                  <p className="small" style={{ color: '#b967ff', fontSize: '0.7rem' }}>
+                    Advanced Processing Suite
                   </p>
                 </motion.div>
               </div>

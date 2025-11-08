@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import  { useState } from "react";
+import { motion} from "framer-motion";
 import {
   FaUser,
   FaBars,
   FaChevronDown,
   FaCog,
   FaSignOutAlt,
-  FaBell,
+ 
 } from "react-icons/fa";
 import { Navbar, Container, Button, Dropdown, Badge } from "react-bootstrap";
 import navLogo from "../../assets/logo/rapportlogo1.png";

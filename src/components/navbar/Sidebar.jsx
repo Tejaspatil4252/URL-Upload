@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from 'react-router-dom';
 import {
-  FaTimes,
+  
   FaHome,
   FaShip,
   FaChartBar,

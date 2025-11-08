@@ -1,9 +1,8 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Card, Button, Badge, ProgressBar } from 'react-bootstrap';
 import { 
   FaUpload, 
-  FaCamera, 
   FaCheck, 
   FaFile, 
   FaTimes,

@@ -25,11 +25,100 @@ const EirUpload = () => {
   });
   const [showCamera, setShowCamera] = useState(false);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        duration: 0.8
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { y: -50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 120,
+        damping: 15
+      }
+    }
+  };
+
+  // Background animation styles
+  const backgroundStyles = {
+    mainBg: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundImage: `url(${AiBG})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      zIndex: -3,
+      filter: 'brightness(0.7) contrast(1.1) saturate(1.1)'
+    },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'linear-gradient(135deg, rgba(10, 10, 26, 0.85) 0%, rgba(26, 26, 46, 0.90) 50%, rgba(10, 10, 26, 0.85) 100%)',
+      zIndex: -2
+    },
+    grid: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundImage: `
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px)
+      `,
+      backgroundSize: '50px 50px',
+    },
+    statusDot: {
+      width: '12px',
+      height: '12px',
+      background: 'linear-gradient(135deg, #00ff41 0%, #00b336 100%)',
+      boxShadow: '0 0 15px #00ff41',
+      borderRadius: '50%'
+    },
+    statusDotAI: {
+      width: '12px',
+      height: '12px',
+      background: 'linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)',
+      boxShadow: '0 0 15px #00f0ff',
+      borderRadius: '50%'
+    }
+  };
+
   // Camera handler
   const handleCameraCapture = (file) => {
     setSelectedFile(file);
     setShowCamera(false);
-    // Auto-process after camera capture
     setTimeout(() => {
       handleProcessDocument();
     }, 1000);
@@ -59,14 +148,12 @@ const EirUpload = () => {
     setIsUploading(true);
     setUploadProgress(0);
 
-    // Simulate processing with cyber-tech vibes
     const interval = setInterval(() => {
       setUploadProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
           setIsUploading(false);
           
-          // Mock auto-filled data with realistic values
           setEirData({
             containerNo: 'CMAU 123456 7',
             eirNo: 'EIR-2024-00123',
@@ -81,7 +168,7 @@ const EirUpload = () => {
           setShowEIRForm(true);
           return 100;
         }
-        return prev + 5; // Slower for dramatic effect
+        return prev + 5;
       });
     }, 150);
   };
@@ -103,7 +190,6 @@ const EirUpload = () => {
   };
 
   const handleSaveEIR = () => {
-    // Cyber-tech save animation
     setIsUploading(true);
     setUploadProgress(0);
     
@@ -114,7 +200,6 @@ const EirUpload = () => {
           setIsUploading(false);
           console.log('EIR Data Secured:', eirData);
           
-          // Cyber success notification
           setTimeout(() => {
             alert('🚀 EIR DATA SECURED IN QUANTUM STORAGE!');
           }, 500);
@@ -130,63 +215,67 @@ const EirUpload = () => {
     <NavLayout>
       {/* 🎨 LAYERED BACKGROUND START */}
       
-      {/* LAYER 1: Your AI Background Image (Fixed) */}
-      <div 
-        className="position-fixed top-0 start-0 w-100 h-100"
-        style={{
-          backgroundImage: `url(${AiBG})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          backgroundRepeat: 'no-repeat',
-          zIndex: -3,
-          // Subtle image enhancement
-          filter: 'brightness(0.7) contrast(1.1) saturate(1.1)'
+      {/* LAYER 1: Background Image */}
+      <motion.div 
+        style={backgroundStyles.mainBg}
+        animate={{
+          scale: [1, 1.02, 1],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
       />
       
-      {/* LAYER 2: Color Overlay (Cyber Gradient) */}
-      <div 
-        className="position-fixed top-0 start-0 w-100 h-100"
-        style={{
-          background: 'linear-gradient(135deg, rgba(10, 10, 26, 0.85) 0%, rgba(26, 26, 46, 0.90) 50%, rgba(10, 10, 26, 0.85) 100%)',
-          zIndex: -2
-        }}
+      {/* LAYER 2: Color Overlay */}
+      <motion.div 
+        style={backgroundStyles.overlay}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
       />
       
       {/* LAYER 3: Animated Elements */}
-      <div className="position-fixed top-0 start-0 w-100 h-100" style={{ zIndex: -1 }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
         {/* Animated Grid */}
-        <div className="position-absolute top-0 start-0 w-100 h-100" style={{
-          backgroundImage: `
-            linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(180deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-          animation: 'gridMove 20s linear infinite'
-        }} />
+        <motion.div 
+          style={backgroundStyles.grid}
+          animate={{
+            backgroundPosition: ['0px 0px', '50px 50px']
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
         
         {/* Floating Tech Orbs - BLUE */}
-        {[...Array(8)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={`blue-${i}`}
-            className="position-absolute rounded-circle"
             style={{
-              width: `${100 + Math.random() * 200}px`,
-              height: `${100 + Math.random() * 200}px`,
-              background: `radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%)`,
+              position: 'absolute',
+              borderRadius: '50%',
+              width: `${80 + Math.random() * 120}px`,
+              height: `${80 + Math.random() * 120}px`,
+              background: `radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%)`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              filter: 'blur(40px)'
+              filter: 'blur(30px)'
             }}
             animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 1.4, 1],
+              opacity: [0.2, 0.5, 0.2],
+              x: [0, Math.random() * 100 - 50, 0],
+              y: [0, Math.random() * 100 - 50, 0],
             }}
             transition={{
-              duration: 10 + Math.random() * 10,
+              duration: 15 + Math.random() * 10,
               repeat: Infinity,
               delay: Math.random() * 5,
+              ease: "easeInOut"
             }}
           />
         ))}
@@ -195,48 +284,80 @@ const EirUpload = () => {
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={`purple-${i}`}
-            className="position-absolute rounded-circle"
             style={{
-              width: `${80 + Math.random() * 120}px`,
-              height: `${80 + Math.random() * 120}px`,
-              background: `radial-gradient(circle, rgba(185, 103, 255, 0.08) 0%, transparent 70%)`,
+              position: 'absolute',
+              borderRadius: '50%',
+              width: `${60 + Math.random() * 80}px`,
+              height: `${60 + Math.random() * 80}px`,
+              background: `radial-gradient(circle, rgba(185, 103, 255, 0.12) 0%, transparent 70%)`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              filter: 'blur(30px)'
+              filter: 'blur(25px)'
             }}
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.6, 1],
+              opacity: [0.15, 0.35, 0.15],
+              x: [0, Math.random() * 80 - 40, 0],
+              y: [0, Math.random() * 80 - 40, 0],
             }}
             transition={{
-              duration: 8 + Math.random() * 8,
+              duration: 12 + Math.random() * 8,
               repeat: Infinity,
               delay: Math.random() * 3,
+              ease: "easeInOut"
             }}
           />
         ))}
         
         {/* Data Stream Lines */}
-        {[...Array(3)].map((_, i) => (
+        {[...Array(4)].map((_, i) => (
           <motion.div
             key={`stream-${i}`}
-            className="position-absolute"
             style={{
-              width: '2px',
-              height: '200%',
-              background: 'linear-gradient(to bottom, transparent, #00f0ff, transparent)',
-              left: `${20 + i * 30}%`,
-              top: '-50%',
-              filter: 'blur(1px)',
-              opacity: 0.6
+              position: 'absolute',
+              width: '1px',
+              height: '150%',
+              background: 'linear-gradient(to bottom, transparent 0%, #00f0ff 30%, #b967ff 70%, transparent 100%)',
+              left: `${15 + i * 25}%`,
+              top: '-25%',
+              filter: 'blur(0.5px)',
+              opacity: 0.4
             }}
             animate={{
-              y: ['0%', '100%'],
+              y: ['0%', '50%'],
             }}
             transition={{
-              duration: 4 + i,
+              duration: 3 + i * 0.5,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
+              delay: i * 0.3
+            }}
+          />
+        ))}
+
+        {/* Pulse Rings */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={`pulse-${i}`}
+            style={{
+              position: 'absolute',
+              borderRadius: '50%',
+              width: '400px',
+              height: '400px',
+              border: '1px solid rgba(0, 240, 255, 0.1)',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            animate={{
+              scale: [0.8, 1.5, 0.8],
+              opacity: [0, 0.3, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              delay: i * 1.5,
+              ease: "easeOut"
             }}
           />
         ))}
@@ -245,25 +366,38 @@ const EirUpload = () => {
 
       <Container fluid className="py-4 position-relative" style={{ zIndex: 1, background: 'transparent' }}>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
           {/* Cyber Header */}
           <Row className="mb-5">
             <Col className="text-center">
               <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-                className="position-relative"
+                variants={headerVariants}
+                style={{ position: 'relative' }}
               >
                 {/* Header Glow Effect */}
-                <div className="position-absolute top-50 start-50 translate-middle w-100 h-100"
+                <motion.div 
                   style={{
-                    background: 'radial-gradient(circle, rgba(0, 240, 255, 0.3) 0%, transparent 70%)',
-                    filter: 'blur(60px)',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '100%',
+                    height: '100%',
+                    background: 'radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, transparent 70%)',
+                    filter: 'blur(80px)',
                     zIndex: -1
+                  }}
+                  animate={{
+                    opacity: [0.3, 0.6, 0.3],
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
                   }}
                 />
                 
@@ -273,22 +407,29 @@ const EirUpload = () => {
                     background: 'linear-gradient(135deg, #00f0ff 0%, #b967ff 50%, #00ff41 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    textShadow: '0 0 30px rgba(0, 240, 255, 0.5)'
+                    backgroundClip: 'text',
+                    textShadow: '0 0 40px rgba(0, 240, 255, 0.7)',
+                    fontFamily: 'Courier New, monospace',
+                    letterSpacing: '2px'
                   }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
                 >
                   QUANTUM EIR PROCESSOR
                 </motion.h1>
                 
                 <motion.p 
                   className="lead mb-4"
+                  variants={itemVariants}
                   style={{ 
                     color: '#b967ff',
-                    textShadow: '0 0 20px rgba(185, 103, 255, 0.5)'
+                    textShadow: '0 0 25px rgba(185, 103, 255, 0.6)',
+                    fontFamily: 'Courier New, monospace',
+                    letterSpacing: '1px',
+                    fontWeight: '500'
                   }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
                 >
                   ADVANCED DOCUMENT INGESTION SYSTEM • AI-POWERED DATA EXTRACTION
                 </motion.p>
@@ -296,43 +437,45 @@ const EirUpload = () => {
                 {/* System Status Bar */}
                 <motion.div 
                   className="d-flex justify-content-center align-items-center gap-3 mt-4"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 }}
+                  variants={itemVariants}
                 >
                   <div className="d-flex align-items-center gap-2">
                     <motion.div
-                      className="rounded-circle"
-                      style={{
-                        width: '12px',
-                        height: '12px',
-                        background: 'linear-gradient(135deg, #00ff41 0%, #00b336 100%)',
-                        boxShadow: '0 0 15px #00ff41'
-                      }}
+                      style={backgroundStyles.statusDot}
                       animate={{
-                        scale: [1, 1.2, 1],
+                        scale: [1, 1.3, 1],
                         opacity: [0.7, 1, 0.7]
                       }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                    <span style={{ color: '#00f0ff', fontSize: '0.9rem', fontWeight: '500' }}>
+                    <span style={{ 
+                      color: '#00f0ff', 
+                      fontSize: '0.9rem', 
+                      fontWeight: '500',
+                      fontFamily: 'Courier New, monospace',
+                      letterSpacing: '1px'
+                    }}>
                       SYSTEM ONLINE
                     </span>
                   </div>
                   
-                  <div style={{ color: '#b967ff', fontSize: '0.9rem' }}>|</div>
+                  <div style={{ 
+                    color: '#b967ff', 
+                    fontSize: '0.9rem',
+                    opacity: 0.7 
+                  }}>|</div>
                   
                   <div className="d-flex align-items-center gap-2">
                     <motion.div
-                      className="rounded-circle"
-                      style={{
-                        width: '12px',
-                        height: '12px',
-                        background: 'linear-gradient(135deg, #00f0ff 0%, #b967ff 100%)',
-                        boxShadow: '0 0 15px #00f0ff'
-                      }}
+                      style={backgroundStyles.statusDotAI}
                     />
-                    <span style={{ color: '#00f0ff', fontSize: '0.9rem', fontWeight: '500' }}>
+                    <span style={{ 
+                      color: '#00f0ff', 
+                      fontSize: '0.9rem', 
+                      fontWeight: '500',
+                      fontFamily: 'Courier New, monospace',
+                      letterSpacing: '1px'
+                    }}>
                       AI PROCESSOR ACTIVE
                     </span>
                   </div>
@@ -345,11 +488,7 @@ const EirUpload = () => {
           <Row className="justify-content-center">
             <Col xl={10} xxl={8}>
               {/* Upload Section */}
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
+              <motion.div variants={itemVariants}>
                 <UploadSection 
                   selectedFile={selectedFile}
                   isUploading={isUploading}
@@ -362,13 +501,18 @@ const EirUpload = () => {
               </motion.div>
 
               {/* EIR Form - Animated Entrance */}
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {showEIRForm && (
                   <motion.div
-                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -50, scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                    exit={{ opacity: 0, y: -30, scale: 0.95 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 200, 
+                      damping: 20,
+                      duration: 0.6
+                    }}
                     className="mt-5"
                   >
                     <EIRForm 
@@ -381,21 +525,30 @@ const EirUpload = () => {
               </AnimatePresence>
 
               {/* Processing Status */}
-              {isUploading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center mt-4"
-                >
-                  <motion.p
-                    style={{ color: '#00f0ff' }}
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+              <AnimatePresence>
+                {isUploading && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="text-center mt-4"
                   >
-                    QUANTUM ANALYSIS IN PROGRESS • SECURING DATA STREAMS
-                  </motion.p>
-                </motion.div>
-              )}
+                    <motion.p
+                      style={{ 
+                        color: '#00f0ff',
+                        fontFamily: 'Courier New, monospace',
+                        letterSpacing: '1px',
+                        fontWeight: '500',
+                        textShadow: '0 0 15px rgba(0, 240, 255, 0.5)'
+                      }}
+                      animate={{ opacity: [0.6, 1, 0.6] }}
+                      transition={{ duration: 1.8, repeat: Infinity }}
+                    >
+                      QUANTUM ANALYSIS IN PROGRESS • SECURING DATA STREAMS
+                    </motion.p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Col>
           </Row>
         </motion.div>
@@ -407,8 +560,6 @@ const EirUpload = () => {
         onClose={() => setShowCamera(false)}
         onCapture={handleCameraCapture}
       />
-
-
     </NavLayout>
   );
 };
